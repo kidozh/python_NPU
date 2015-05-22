@@ -8,6 +8,7 @@ import time
 import threading
 import urllib
 
+
 def detect_home(website):
 
     req = urllib2.Request(
