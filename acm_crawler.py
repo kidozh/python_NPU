@@ -2,7 +2,6 @@ __author__ = 'kido'
 import urllib2
 import cookielib
 import re
-import thread
 import time
 import threading
 import urllib
