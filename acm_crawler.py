@@ -1,10 +1,142 @@
+
 __author__ = 'kido'
 import urllib2
 import cookielib
 import re
+import json
 import time
 import threading
 import urllib
+
+def detect_VJ(name):
+    headers = {
+    'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6',
+    }
+    req = urllib2.Request(
+        url = 'http://acm.hust.edu.cn/vjudge/problem/status.action#un='+name+'&length=20000'+name,
+        headers = headers
+    )
+    cookie = cookielib.CookieJar()
+    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
+    result = opener.open(req)
+    # html =result.read() #get cookie
+    req = urllib2.Request(
+        url = 'http://acm.hust.edu.cn/vjudge/problem/fetchStatus.action',
+        headers = headers
+    )
+    result = opener.open(req)
+    flag = True
+    cnt = 1
+    tot = 0
+    detect = []
+    while flag == 1:
+        postData = {
+            'draw':	cnt,
+            'columns[0][data]':	'0',
+            'columns[0][name]': '',
+            'columns[0][searchable]':'true',
+            'columns[0][orderable]':'false',
+            'columns[0][search][value]':'',
+            'columns[0][search][regex]':'false',
+            'columns[1][data]' :'1',
+            'columns[1][name]' :'',
+            'columns[1][searchable]' :'true',
+            'columns[1][orderable]' :'false',
+            'columns[1][search][value]' :'',
+            'columns[1][search][regex]' :'false',
+            'columns[2][data]' :'2',
+            'columns[2][name]' :'',
+            'columns[2][searchable]' :'true',
+            'columns[2][orderable]' :'false',
+            'columns[2][search][value]' :'',
+            'columns[2][search][regex]' :'false',
+            'columns[3][data]' :'3',
+            'columns[3][name]' :'',
+            'columns[3][searchable]' :'true',
+            'columns[3][orderable]' :'false',
+            'columns[3][search][value]' :'',
+            'columns[3][search][regex]' :'false',
+            'columns[4][data]' :'4',
+            'columns[4][name]' :'',
+            'columns[4][searchable]' :'true',
+            'columns[4][orderable]' :'false',
+            'columns[4][search][value]' :'',
+            'columns[4][search][regex]' :'false',
+            'columns[5][data]' :'5',
+            'columns[5][name]' :'',
+            'columns[5][searchable]' :'true',
+            'columns[5][orderable]' :'false',
+            'columns[5][search][value]' :'',
+            'columns[5][search][regex]' :'false',
+            'columns[6][data]' :'6',
+            'columns[6][name]' :'',
+            'columns[6][searchable]' :'true',
+            'columns[6][orderable]' :'false',
+            'columns[6][search][value]' :'',
+            'columns[6][search][regex]' :'false',
+            'columns[7][data]' :'7',
+            'columns[7][name]' :'',
+            'columns[7][searchable]' :'true',
+            'columns[7][orderable]' :'false',
+            'columns[7][search][value]' :'',
+            'columns[7][search][regex]' :'false',
+            'columns[8][data]' :'8',
+            'columns[8][name]' :'',
+            'columns[8][searchable]' :'true',
+            'columns[8][orderable]' :'false',
+            'columns[8][search][value]' :'',
+            'columns[8][search][regex]' :'false',
+            'columns[9][data]' :'9',
+            'columns[9][name]' :'',
+            'columns[9][searchable]' :'true',
+            'columns[9][orderable]' :'false',
+            'columns[9][search][value]' :'',
+            'columns[9][search][regex]' :'false',
+            'columns[10][data]' :'10',
+            'columns[10][name]' :'',
+            'columns[10][searchable]' :'true',
+            'columns[10][orderable]' :'false',
+            'columns[10][search][value]' :'',
+            'columns[10][search][regex]' :'false',
+            'columns[11][data]' :'11',
+            'columns[11][name]' :'',
+            'columns[11][searchable]' :'true',
+            'columns[11][orderable]' :'false',
+            'columns[11][search][value]' :'',
+            'columns[11][search][regex]' :'false',
+            'order[0][column]' :'0',
+            'order[0][dir]' :'desc',
+            'start':(cnt-1)*1000+1,
+            'length':'1000',
+            'search[value]':'',
+            'search[regex]':'false',
+            'un':name,
+            'OJId':'All',
+            'probNum':'',
+            'res':'1',
+            'language':'',
+            'orderBy':'run_id',
+        }
+        postData = urllib.urlencode(postData)
+        req = urllib2.Request(
+            url = 'http://acm.hust.edu.cn/vjudge/problem/fetchStatus.action',
+            headers = headers,
+            data = postData
+        )
+        cnt+=1
+        jsonstring = opener.open(req)
+        string = jsonstring.read()
+        s = json.loads(string)
+        for i in s['data'] :
+            string = i[11]+i[12]
+            try :
+                detect.index(string)
+            except :
+                detect.append(string)
+        tot +=len(detect)
+        if len(s['data'])==0 :
+            flag = False
+    return len(detect)
 
 def detect_poj(name):
     headers = {
@@ -219,7 +351,10 @@ def detect_timus(name):
         )
     except:
         return 0
-    result = opener.open(req)
+    try:
+        result = opener.open(req)
+    except :
+        return 0
     html =result.read()
     sem = re.findall(r'Problems solved</TD><TD CLASS="author_stats_value">([0-9]*?) out of',html,re.S)
     #print html
@@ -523,6 +658,9 @@ while 1:
     print 'Total : ',int(poj)+int(hdu)+int(zoj)+int(fzu)+int(acdream)+int(dashiye)+int(timus)+int(hust)+int(spoj)+int(sgu)
     print '+----------------------Code Force Score----------------------'
     print '+         Codeforce Score    : ',detect_cf(name)
+    print '+------------------------------------------------------------'
+    print 'Virtual judge : ',detect_VJ(name)
+
 
 
 
