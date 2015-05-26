@@ -1,4 +1,3 @@
-
 __author__ = 'kido'
 import urllib2
 import cookielib
@@ -618,7 +617,7 @@ while 1:
     try:
         print '-------------------------------'
         print '     Author : kidozh       '
-        print '     supported OJ : POJ,HDU,ZOJ,Codeforce,FZU,ACdream,BZOJ,URAL,CSU,HUST,SPOJ,SGU      '
+        print '     supported OJ : POJ,HDU,ZOJ,Codeforce,FZU,ACdream,BZOJ,URAL,CSU,HUST,SPOJ,SGU，Virtual Judge      '
         print '     Current time : '+formattime
         print '     language  : Python'
         print '     if your accounts don\'t keep consistency you can type many times'
