@@ -5,6 +5,7 @@ import math
 import pyExcelerator as wrex
 
 dict = {}
+truename = {}
 sync_list = []
 rec = []
 
@@ -29,10 +30,14 @@ def trans_info():
     for i in range(nrows):
         max = 0
         list = []
+
         for j in range(ncols):
             val = sheet.cell_value(i,j)
-            if j==1:
+
+            if j==0:
                 name = val
+
+
             if j>1:
                 list.append(val)
         list.sort(reverse=True)
@@ -118,4 +123,3 @@ def calc():
 
 trans_info()
 calc()
-wrt()
