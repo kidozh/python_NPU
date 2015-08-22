@@ -322,7 +322,7 @@ def detect_acdream(name):
     except :
         return 0
     html =result.read()
-    sem = re.findall('Submissions:.*?<span.*?>(.*?)</span>',html,re.S)
+    sem = re.findall('Solved:.*?<span.*?>(.*?)</span>',html,re.S)
     try:
         return sem[0]
     except:
@@ -617,7 +617,7 @@ while 1:
     try:
         print '-------------------------------'
         print '     Author : kidozh       '
-        print '     supported OJ : POJ,HDU,ZOJ,Codeforce,FZU,ACdream,BZOJ,URAL,CSU,HUST,SPOJ,SGU，Virtual Judge      '
+        print '     supported OJ : POJ,HDU,ZOJ,Codeforce,FZU,ACdream,BZOJ,URAL,CSU,HUST,SPOJ,SGU,Virtual Judge      '
         print '     Current time : '+formattime
         print '     language  : Python'
         print '     if your accounts don\'t keep consistency you can type many times'

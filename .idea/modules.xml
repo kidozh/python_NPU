@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Rating_Two/.idea/Rating_Two.iml" filepath="$PROJECT_DIR$/../Rating_Two/.idea/Rating_Two.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/python_NPU.iml" filepath="$PROJECT_DIR$/.idea/python_NPU.iml" />
     </modules>
   </component>
